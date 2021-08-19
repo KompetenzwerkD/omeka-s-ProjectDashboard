@@ -1,0 +1,51 @@
+<h1>Project dashboard</h1>
+
+<?php foreach($this->templates as $template): ?>
+<div class="dashboard-widget">
+    <h3>
+        <?php echo $template['template']->label() ?> 
+    </h3>
+    <div class="dashboard-stats">
+        <a href="<?php echo 'item?resource_template_id=' . $template['template']->id() . '&sort_by=title&sort_order=asc' ?>">Total items: <?php echo $template['total'] ?>  </a>
+        <a class='o-icon-add ' id='add-reference-button' value='Element hinzufügen' href='/admin/project-dashboard/add-item/<?php echo $template['template']->id() ?>'> Create item</a>
+    </div>
+    <div>
+        <h4>Recent changes</h4>
+        <table class="item-table">
+            <?php foreach($template['items'] as $item): ?>
+                <tr class="item-table-td">
+                    <td>
+                        <?php echo '<a href="' . $item->url() . '">' . $item->displayTitle() .'</a>' ?>
+                    </td>
+                    <td>
+                        <?php echo $item->modified()->format('Y-m-d H:i:s'); ?>
+                    </td>
+                </tr>
+            <?php endforeach ?>
+        </table>
+    </div>
+</div>
+<?php endforeach; ?>
+
+<style>
+    .dashboard-widget {
+        padding: 2em;
+        border-radius: 10px;
+        background-color: rgba(0,0,0,0.04);
+        margin-bottom: 3em;
+    }
+    .dashboard-stats {
+        margin-bottom: 1em;
+    }
+    .dashboard-stats a {
+        margin-right: 2em;
+    }
+    .item-table {
+        font-size: 0.9em;
+        padding: 1em;
+    }
+    .item-table tr td {
+        margin: 0;
+        padding: 0;
+    }
+</style>
