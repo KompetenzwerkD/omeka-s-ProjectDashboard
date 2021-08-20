@@ -47,6 +47,24 @@ return [
                                     'route' => '/add-item/:id',
                                     'defaults' => [
                                         'action' => 'addItem'
+                                    ],
+                                ],
+                            ],
+                            'add-template' => [
+                                'type' => Literal::class,
+                                'options' => [
+                                    'route' => '/add-template',
+                                    'defaults' => [
+                                        'action' => 'addTemplate'
+                                    ],
+                                ],
+                            ],
+                            'remove-template' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/remove-template/:id',
+                                    'defaults' => [
+                                        'action' => 'removeTemplate'
                                     ]
                                 ]
                             ]
