@@ -55,27 +55,24 @@ class IndexController extends AbstractActionController
     }
 
     public function addItemAction() {
+
         $resourceTemplateId = $this->params('id');
-
-        $item = [];
-
         $resourceTemplate = $this->api()->read('resource_templates', $resourceTemplateId)->getContent();
         $resourceClass = $resourceTemplate->resourceClass();
 
+        $item = [];
         $itemSet = $this->api()->search('item_sets', [ 'fulltext_search' => $resourceTemplate->label() ] )->getContent();
         if ($itemSet) {
             $item['o:item_set'] = [ 'o:id' => $itemSet[0]->id()];
         }
-
-        $item['o:resource_class'] = [
-            'o:id' => $resourceClass->id()
-        ];
         $item['o:resource_template'] = [
             'o:id' => $resourceTemplateId
         ];
+        $item['o:resource_class'] = [
+            'o:id' => $resourceClass->id()
+        ];
 
         $newItem = $this->api()->create('items', $item)->getContent();
-
         return $this->redirect()->toURL($newItem->url('edit'));
     }
 
