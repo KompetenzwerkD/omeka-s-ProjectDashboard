@@ -132,9 +132,12 @@ class IndexController extends AbstractActionController
                     }
                     
                     $items = $this->api()->search('items', [ 'resource_template_id' => $resourceTemplate->id()])->getContent();
-                    foreach ($items as $item) {
-                        $this->api()->update('items', $item->id(), [ 'o:item_set' => [ 'o:id' => $itemSet->id() ]  ], [], ['isPartial'=>true, 'collectionAction' => 'append']);
+                    $ids = [];
+                    foreach($items as $item) {
+                        array_push($ids,$item->id());
                     }
+
+                    $this->api()->batchUpdate('items', $ids, [ 'o:item_set' => [ 'o:id' => $itemSet->id() ]  ], [], ['isPartial'=>true, 'collectionAction' => 'append']);
 
                     $templates = implode(",", $templates);
                     $this->settings()->set("dbResourceTemplates", $templates);
